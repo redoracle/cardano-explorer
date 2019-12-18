@@ -31,14 +31,14 @@ WORKDIR /root/
 
 # Download additional packages and Enable HTTPS support in wget
 RUN cd \
+&& curl -sSL https://get.haskellstack.org/ | sh \
 && mkdir /root/blockscripts \
 && echo http:"//dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
 && apk update && apk --no-cache upgrade && apk add --no-cache --update bash make tmux curl gtk+2.0 g++ \
-&& curl -sSL https://get.haskellstack.org/ | sh \
 && nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs \
 && nix-shell -p nix-info --run "nix-info -m" \
 && nix-channel --update \
-&& nix-env -iA nixpkgs.purescript nixpkgs.wget nixpkgs.ghc nixpkgs.perl nixpkgs.sudo nixpkgs.gcc nixpkgs.gmp nixpkgs.xz nixpkgs.libgcc nixpkgs.git nixpkgs.rustc nixpkgs.yarn nixpkgs.openssl nixpkgs.ncurses nixpkgs.haskell-ci nixpkgs.python nixpkgs.rust-bindgen nixpkgs.npm2nix nixpkgs.musl \
+#&& nix-env -iA nixpkgs.purescript nixpkgs.wget nixpkgs.ghc nixpkgs.perl nixpkgs.sudo nixpkgs.gcc nixpkgs.gmp nixpkgs.xz nixpkgs.libgcc nixpkgs.git nixpkgs.rustc nixpkgs.yarn nixpkgs.openssl nixpkgs.ncurses nixpkgs.haskell-ci nixpkgs.python nixpkgs.rust-bindgen nixpkgs.npm2nix nixpkgs.musl \
 && npm install -f -g --unsafe-perm=true --allow-root --no-optional --toolset=musl node-musl n wscat mobx react react-dom fsevents pulp bower \
 && yarn install && yarn upgrade \
 && git clone https://github.com/input-output-hk/cardano-byron-proxy \
@@ -73,7 +73,8 @@ RUN cd \
 && rm -rf /var/cache/apk/* 
 
 COPY Cardano_updated.sh /root/blockscripts/
-VOLUME ~/DATA/cardano/state-wallet-mainnet:/root/state-wallet-mainnet ~/DATA/cardano/state-explorer-mainnet:/root/state-explorer-mainnet
+VOLUME /root/state-wallet-mainnet 
+VOLUME /root/state-explorer-mainnet
     
 ONBUILD ENV \
     ENV=/etc/profile \
