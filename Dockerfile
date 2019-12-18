@@ -38,7 +38,7 @@ RUN cd \
 && nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs \
 && nix-shell -p nix-info --run "nix-info -m" \
 && nix-channel --update \
-&& nix-env -iA nixpkgs.purescript nixpkgs.wget nixpkgs.ghc nixpkgs.perl nixpkgs.sudo nixpkgs.gcc nixpkgs.gmp nixpkgs.xz nixpkgs.libgcc nixpkgs.git nixpkgs.rustc nixpkgs.yarn nixpkgs.openssl nixpkgs.ncurses nixpkgs.haskell-ci nixpkgs.python nixpkgs.rust-bindgen nixpkgs.nodejs-11_x nixpkgs.npm2nix nixpkgs.musl \
+&& nix-env -iA nixpkgs.purescript nixpkgs.wget nixpkgs.ghc nixpkgs.perl nixpkgs.sudo nixpkgs.gcc nixpkgs.gmp nixpkgs.xz nixpkgs.libgcc nixpkgs.git nixpkgs.rustc nixpkgs.yarn nixpkgs.openssl nixpkgs.ncurses nixpkgs.haskell-ci nixpkgs.python nixpkgs.rust-bindgen nixpkgs.npm2nix nixpkgs.musl \
 && npm install -f -g --unsafe-perm=true --allow-root --no-optional --toolset=musl node-musl n wscat mobx react react-dom fsevents pulp bower \
 && yarn install && yarn upgrade \
 && git clone https://github.com/input-output-hk/cardano-byron-proxy \
