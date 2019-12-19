@@ -39,13 +39,13 @@ RUN cd \
 && nix-channel --update \
 #&& nix-build -A pythonFull  nixpkgs.wget nixpkgs.ghc nixpkgs.perl nixpkgs.sudo nixpkgs.gcc nixpkgs.gmp nixpkgs.xz nixpkgs.git nixpkgs.rustc nixpkgs.yarn nixpkgs.openssl nixpkgs.ncurses nixpkgs.haskell-ci nixpkgs.python \
 #&& npm install -f -g --unsafe-perm=true --allow-root --no-optional --toolset=musl node-musl n wscat mobx react react-dom fsevents pulp bower \
-&& yarn install && yarn upgrade \
+#&& yarn install && yarn upgrade \
 && git clone https://github.com/input-output-hk/cardano-byron-proxy \
 && cd cardano-byron-proxy \
-&& nix-build -A scripts.mainnet.proxy -o mainnet-byron-proxy \
+&& nix-build -A scripts.testnet.proxy -o testnet-byron-proxy \
 && cd && git clone https://github.com/input-output-hk/cardano-node \
 && cd cardano-node \
-&& nix-build -A scripts.mainnet.node -o mainnet-node-local --arg customConfig '{ useProxy = true; }' \
+&& nix-build -A scripts.testnet.node -o testnet-node-local --arg customConfig '{ useProxy = true; }' \
 && cd && git clone https://github.com/input-output-hk/cardano-explorer \
 && cd cardano-explorer \
 && nix-build -A cardano-explorer-node -o explorer-node \
