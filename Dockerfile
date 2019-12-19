@@ -1,7 +1,8 @@
 # Dockerfile to create an environment that contains:
 # Alpine +  Nix package manager + nodejs + Cardano SL (Explorer + Wallet + mallet scripts) 
+RUN nix-build -A pythonFull '<nixpkgs>'
 
-FROM redoracle/nixos
+FROM nixos/nix
 MAINTAINER RedOracle
 
 # Metadata params
@@ -38,8 +39,8 @@ RUN cd \
 && nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs \
 && nix-shell -p nix-info --run "nix-info -m" \
 && nix-channel --update \
-&& nix-env -iPA nixpkgs.purescript nixos.nodePackages nixpkgs.wget nixpkgs.ghc nixpkgs.perl nixpkgs.sudo nixpkgs.gcc nixpkgs.gmp nixpkgs.xz nixpkgs.git nixpkgs.rustc nixpkgs.yarn nixpkgs.openssl nixpkgs.ncurses nixpkgs.haskell-ci nixpkgs.python nixpkgs.npm2nix \
-&& npm install -f -g --unsafe-perm=true --allow-root --no-optional --toolset=musl node-musl n wscat mobx react react-dom fsevents pulp bower \
+&& nix-build -A pythonFull nixpkgs.purescript nixpkgs.wget nixpkgs.ghc nixpkgs.perl nixpkgs.sudo nixpkgs.gcc nixpkgs.gmp nixpkgs.xz nixpkgs.git nixpkgs.rustc nixpkgs.yarn nixpkgs.openssl nixpkgs.ncurses nixpkgs.haskell-ci nixpkgs.python \
+#&& npm install -f -g --unsafe-perm=true --allow-root --no-optional --toolset=musl node-musl n wscat mobx react react-dom fsevents pulp bower \
 && yarn install && yarn upgrade \
 && git clone https://github.com/input-output-hk/cardano-byron-proxy \
 && cd cardano-byron-proxy \
@@ -54,8 +55,8 @@ RUN cd \
 && git clone https://github.com/input-output-hk/mallet.git \
 && git clone https://github.com/input-output-hk/cardano-cli.git --recursive \
 && cd /root/mallet \
-&& npm install -g --engine-strict @iohk/mallet --unsafe-perm=true --allow-root \
-&& npm audit fix --force \
+#&& npm install -g --engine-strict @iohk/mallet --unsafe-perm=true --allow-root \
+#&& npm audit fix --force \
 && cd /root/cardano-cli  \
 #&& res=$(find /nix/store/ -name cargo | head -1 ) \
 #&& echo "RES = $res" && $res install \
