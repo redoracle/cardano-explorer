@@ -1,7 +1,5 @@
 # Dockerfile to create an environment that contains:
 # Alpine +  Nix package manager + nodejs + Cardano SL (Explorer + Wallet + mallet scripts) 
-RUN nix-build -A pythonFull '<nixpkgs>'
-
 FROM nixos/nix
 MAINTAINER RedOracle
 
